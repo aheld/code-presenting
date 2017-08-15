@@ -42,7 +42,7 @@ dotnet remove package xunit.runner.visualstudio
 <ItemGroup>
     <projectreference Include="..\Calculator\Calculator.csproj">
     </projectreference>
-  </ItemGroup>
+</ItemGroup>
 ```
 +++
 Final Calculator.Test.csproj
@@ -84,7 +84,7 @@ UnitTest1.cs(2,7): error CS0246: The type or namespace name 'Xunit' could not be
 ### Test class is still xUnit.  Move to the next and write an nUnit test
 
 ---
-# Create a Test for a method in the Calculator class such as  ```int Add(string numbers)```
+### Create a Test for a method in the Calculator class such as  ```int Add(string numbers)```
 
 - Passing in an Empty String should return 0
 - Remember to start with a failing test
