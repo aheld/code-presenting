@@ -13,7 +13,7 @@
 
 Create a new Library called Calculator with a corresponding nUnit test project
 
-![Press Down Key](assets/down-arrow.png)
+Hints ![Press Down Key](assets/down-arrow.png)
 
 +++
 
@@ -70,7 +70,7 @@ Final Calculator.Test.csproj
 
 #### Remember to start with a failing test
 
-Hints ![Press Down Key](assets/down-arrow.png)
+![Press Down Key](assets/down-arrow.png)
 
 +++
 
