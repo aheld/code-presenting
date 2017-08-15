@@ -167,7 +167,7 @@ namespace Calculator.Test
 - Exception message should include multiple negative values, if multiples are passed 
 
 ---
-# Bonus Round
+## Bonus Round
 - bigger than 1000 should be ignored, so adding 2 + 1001  = 2
 - Delimiters can be of any length with the following format:  “//[delimiter]\n” for example: “//[***]\n1***2***3” should return 6
 - Allow multiple delimiters like this:  “//[delim1][delim2]\n” for example “//[*][%]\n1*2%3” should return 6.
