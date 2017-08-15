@@ -34,6 +34,7 @@ cd Calculator.Test
 dotnet add package NUnit --version 3.7.1
 dotnet add package NUnit3TestAdapter --version 3.8.0
 dotnet remove package xunit
+dotnet remove package xunit.runner.visualstudio
 ```
 
 ### Add a reference to your library in Calculator.Test.csproj
@@ -62,6 +63,25 @@ Final Calculator.Test.csproj
 </Project>
 ```
 
++++
+
+## Test it
+```bash
+dotnet restore
+dotnet test
+```
+
+### Should error with 
+```bash
+λ dotnet test
+Build started, please wait...
+UnitTest1.cs(2,7): error CS0246: The type or namespace name 'Xunit' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\aheld\Documents\GitHub\code-presenting\project\Calculator.Test\Calculator.Test.csproj]
+'''
+```
+
++++
+
+### Test class is still xUnit.  Move to the next and write an nUnit test
 
 ---
 ## Create a Test for a method in the Calculator class such as  ```int Add(string numbers)```
