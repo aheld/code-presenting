@@ -1,159 +1,154 @@
-# Code
-# Presenting
+# dotnet Kata
+## Based on [Roy Osherove](http://osherove.com/tdd-kata-1/)
 
 ---
 
-### Code-Blocks
+## The Basics
 
-#### The Basics
+- Try not to read ahead.
+- Do one task at a time. The trick is to learn to work incrementally.
+- Make sure you only test for correct inputs. there is no need to test for invalid inputs for this kata
+
+---
+
+Create a new Library called Calculator with a corresponding nUnit test project
 
 ![Press Down Key](assets/down-arrow.png)
 
 +++
 
-```python
-from time import localtime
-
-activities = {8: 'Sleeping', 9: 'Commuting', 17: 'Working',
-              18: 'Commuting', 20: 'Eating', 22: 'Resting' }
-
-time_now = localtime()
-hour = time_now.tm_hour
-
-for activity_time in sorted(activities.keys()):
-    if hour < activity_time:
-        print activities[activity_time]
-        break
-else:
-    print 'Unknown, AFK or sleeping!'
+Create library project
+```bash
+dotnet new classlib -n Calculator
 ```
 
-###### Code-blocks let you present any <p> **static code** with auto-syntax highlighting
+Create xunit test project
+```bash
+ dotnet new xunit -n Calculator.Test
+```
+Convert it to nUnit
+```bash
+cd Calculator.Test
+dotnet add package NUnit --version 3.7.1
+dotnet add package NUnit3TestAdapter --version 3.8.0
+dotnet remove package xunit
+```
+
+Add a reference to your library in Calculator.Test.csproj
+```xml
+<ItemGroup>
+    <projectreference Include="..\Calculator\Calculator.csproj">
+    </projectreference>
+  </ItemGroup>
+```
++++
+Final Calculator.Test.csproj
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="NUnit" Version="3.7.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <projectreference Include="..\Calculator\Calculator.csproj">
+    </projectreference>
+  </ItemGroup>
+</Project>
+```
+
 
 ---
+## Create a Test for a method in the Calculator class such as  ```int Add(string numbers)```
 
-### Code-Blocks
-##### Using
-#### **Code-Presenting**
+### Passing in an Empty String should return 0
+
+#### Remember to start with a failing test
 
 ![Press Down Key](assets/down-arrow.png)
 
 +++
 
-```python
-from time import localtime
+Calculator\Calculator.cs
+```csharp 
+using System;
 
-activities = {8: 'Sleeping', 9: 'Commuting', 17: 'Working',
-              18: 'Commuting', 20: 'Eating', 22: 'Resting' }
-
-time_now = localtime()
-hour = time_now.tm_hour
-
-for activity_time in sorted(activities.keys()):
-    if hour < activity_time:
-        print activities[activity_time]
-        break
-else:
-    print 'Unknown, AFK or sleeping!'
+namespace Calculator
+{
+    public class Calculator
+    {
+        public int Add(String input){
+            return -1;
+        }
+    }
+}
 ```
-
-@[1]
-@[3-4]
-@[6-7]
-@[9-14]
-
-###### Use code-presenting to **step-thru** code <p> from directly within your presentation 
-
-
----
-
-### Code-Blocks
-##### Using
-#### Code-Presenting
-#### **With Annotations**
-
-![Press Down Key](assets/down-arrow.png)
-
 +++
 
-```python
-from time import localtime
+Calculator.Test\CalculatorTest.cs
+```csharp
+using NUnit.Framework;
+using NUnit.Framework.Constraints;
 
-activities = {8: 'Sleeping', 9: 'Commuting', 17: 'Working',
-              18: 'Commuting', 20: 'Eating', 22: 'Resting' }
-
-time_now = localtime()
-hour = time_now.tm_hour
-
-for activity_time in sorted(activities.keys()):
-    if hour < activity_time:
-        print activities[activity_time]
-        break
-else:
-    print 'Unknown, AFK or sleeping!'
+namespace Calculator.Test
+{
+    [TestFixture]
+    public class UnitTest1
+    {
+        [Test]
+        public void Test1()
+        {
+            var c = new Calculator();
+            Assert.That( c.Add(""), Is.Null);
+        }
+    }
+}
 ```
+---
 
-@[1](Python from..import statement)
-@[3-4](Python dictionary initialization block)
-@[6-7](Python working with time)
-@[9-14](Python for..else statement)
+## Passing in a single number as a string returns that number.
+### Add(“1”) = 1
+### Add(“2”) => 2 
+### etc...
 
 ---
 
-### Naturally
-### Code-Presenting
-### works in exactly the same way on [Code-Delimiter Slides](https://github.com/gitpitch/gitpitch/wiki/Code-Delimiter-Slides) as it does on [Code-Blocks](https://github.com/gitpitch/gitpitch/wiki/Code-Slides).
+## Passing in a pair of numbers yields the sum
+### Add(“1,2”) = 3
+### Add(“2,3”) => 5 
+### etc...
+
+### Remember to refactor often
+
+---
+## Sum an unknown amount of numbers
 
 ---
 
-### Code-Delimiter Slides
+## Allow the Add method to handle new lines between numbers (instead of commas).
+- the following input is ok:  “1\n2,3”  (will equal 6)
+- the following input is NOT ok:  “1,\n” (not need to prove it -  just clarifying)
 
-```
-                  ---?code=path/to/source.file
-```
-
-#### The Basics
-
-![Press Down Key](assets/down-arrow.png)
-
-+++?code=src/python/time.py&lang=python
-
-###### Code delimiters let you present any <p> **code file** with auto-syntax highlighting
 
 ---
-
-### Code-Delimiter Slides
-##### Using
-#### **Code-Presenting**
-
-![Press Down Key](assets/down-arrow.png)
-
-+++?code=src/javascript/config.js&lang=javascript
-
-@[1-3]
-@[5-8]
-@[10-16]
-@[18-24]
-
-###### Use code-presenting to **step-thru** code <p> from directly within your presentation 
+## Support different delimiters to change a delimiter, 
+- the beginning of the string will contain a separate line that looks like this:   
+- “//[delimiter]\n[numbers…]” 
+  - for example “//;\n1;2” should return three where the default delimiter is ‘;’ .
+  - the first line is optional. all existing scenarios should still be supported
 
 ---
-
-### Code-Delimiter Slides
-##### Using
-#### Code-Presenting
-#### **With Annotations**
-
-![Press Down Key](assets/down-arrow.png)
-
-+++?code=src/elixir/monitor.ex&lang=elixir
-
-@[11-14](Elixir module-attributes as constants)
-@[22-28](Elixir with-statement for conciseness)
-@[171-177](Elixir case-statement pattern matching)
-@[179-185](Elixir pipe-mechanism for composing functions)
+## Calling Add with a negative number will throw an exception “negatives not allowed”
+- Exception message should include the negative that was passed.
+- Exception message should include multiple negative values, if multiples are passed 
 
 ---
+# Bonus Round
+- bigger than 1000 should be ignored, so adding 2 + 1001  = 2
+- Delimiters can be of any length with the following format:  “//[delimiter]\n” for example: “//[***]\n1***2***3” should return 6
+- Allow multiple delimiters like this:  “//[delim1][delim2]\n” for example “//[*][%]\n1*2%3” should return 6.
+- make sure you can also handle multiple delimiters with length longer than one char
 
-### Learn By Example
-#### View The [Presentation Markdown](https://github.com/gitpitch/code-presenting/blob/master/PITCHME.md)
