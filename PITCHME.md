@@ -70,7 +70,7 @@ Final Calculator.Test.csproj
 
 #### Remember to start with a failing test
 
-![Press Down Key](assets/down-arrow.png)
+Hints ![Press Down Key](assets/down-arrow.png)
 
 +++
 
