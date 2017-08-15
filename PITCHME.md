@@ -13,7 +13,7 @@
 
 Create a new Library called Calculator with a corresponding nUnit test project
 
-Hints ![Press Down Key](assets/down-arrow.png)
+![Press Down Key](assets/down-arrow.png)
 
 +++
 
