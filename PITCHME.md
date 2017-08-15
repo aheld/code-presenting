@@ -17,16 +17,18 @@ Create a new Library called Calculator with a corresponding nUnit test project
 
 +++
 
-Create library project
+## Create library project
 ```bash
 dotnet new classlib -n Calculator
 ```
 
-Create xunit test project
+## Create xunit test project
 ```bash
  dotnet new xunit -n Calculator.Test
 ```
-Convert it to nUnit
+
++++
+## Convert it to nUnit
 ```bash
 cd Calculator.Test
 dotnet add package NUnit --version 3.7.1
@@ -34,7 +36,7 @@ dotnet add package NUnit3TestAdapter --version 3.8.0
 dotnet remove package xunit
 ```
 
-Add a reference to your library in Calculator.Test.csproj
+### Add a reference to your library in Calculator.Test.csproj
 ```xml
 <ItemGroup>
     <projectreference Include="..\Calculator\Calculator.csproj">
