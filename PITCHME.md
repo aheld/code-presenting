@@ -148,12 +148,32 @@ namespace Calculator.Test
 ## Sum an unknown amount of numbers
 
 ---
+## With Stable Production Code -  __Refactor tests__
 
+---
 ## Allow the Add method to handle new lines between numbers (instead of commas).
 - the following input is ok:  “1\n2,3”  (will equal 6)
 - the following input is NOT ok:  “1,\n” (not need to prove it -  just clarifying)
+---
 
+## With Stable Production Code -  __Refactor tests__
 
++++
+
+### Static Fixtures
+```csharp
+   [TestFixtureSource("_fixtureArgs")]
+   public class AddTest{
+
+    public AddTest(string input, int expected){
+        Assert.AreEqual(calculator.Add(input), expected);
+    }
+
+     static object [] _fixtureArgs = {
+             new object[] { "1,2", 3}
+     }
+   }
+```
 ---
 ## Support different delimiters to change a delimiter, 
 - the beginning of the string will contain a separate line that looks like this:   
@@ -162,9 +182,59 @@ namespace Calculator.Test
   - the first line is optional. all existing scenarios should still be supported
 
 ---
+
+## With Stable Production Code -  __Refactor tests__
+
++++
+
+### Generated Fixtures, try to use this:
+```csharp
+// pesudocode
+ [TestFixtureSource(typeof(CrTestCaseData))]
+   class TestCaseData: IEnumerable
+    {
+        private static readonly TestInputs[] FixtureArgs = {
+            new TestInputs("1,2", 3) };
+
+        public IEnumerator GetEnumerator()
+            { return GetEnumeratorInternal(); }
+        private IEnumerator GetEnumeratorInternal(){
+            foreach (var crTestInput in FixtureArgs)
+            {
+                yield return new object[]
+                    {TestInputs.Input, TestInputs.Expected};
+            }
+        }
+    }
+
+   public struct TestInputs
+    {
+        public TestInputs(string input, int expected)
+        {
+            Input = input;
+            Expected = expected;
+        }
+        
+        public string Input;
+        public int Expected;
+    }
+```
+---
+
 ## Calling Add with a negative number will throw an exception “negatives not allowed”
 - Exception message should include the negative that was passed.
 - Exception message should include multiple negative values, if multiples are passed 
+
+--- 
+
+## Bonus Refactor
+
+Generate tests based on all permutations when given an expected Int, delimeters and number of inputs.
+
+TestPermutations(3, {',','\n','$"}, 2)
+should test:
+["1,2", "2,1", "1\n2", "2\n1", "3,0", "3\n0",
+"\\$\n1$2", "\\$\n$n1", "\\$\n1$2", "\\$\n2$1", "\\$\n3$0", "\\$\n3$0"]
 
 ---
 ## Bonus Round
@@ -172,4 +242,16 @@ namespace Calculator.Test
 - Delimiters can be of any length with the following format:  “//[delimiter]\n” for example: “//[***]\n1***2***3” should return 6
 - Allow multiple delimiters like this:  “//[delim1][delim2]\n” for example “//[*][%]\n1*2%3” should return 6.
 - make sure you can also handle multiple delimiters with length longer than one char
+
+--
+
+## Double Bonus Refactor
+
+Generate tests based on all permutations when given an expected Int, delimeters.  No need to specify number of inputs
+
+TestPermutations(3, {',','\n'})
+should test:
+["1,2", "2,1", "1\n2", "2\n1", "3,0", "3\n0", "3"]
+
+
 
