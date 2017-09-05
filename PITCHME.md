@@ -17,14 +17,14 @@ Create a new Library called Calculator with a corresponding nUnit test project
 
 +++
 
-## Create library project
-```bash
-dotnet new classlib -n Calculator
-```
-
 ## Create xunit test project
 ```bash
  dotnet new xunit -n Calculator.Test
+```
+
+## Create library project
+```bash
+dotnet new classlib -n Calculator
 ```
 
 +++
@@ -40,8 +40,7 @@ dotnet remove package xunit.runner.visualstudio
 ### Add a reference to your library in Calculator.Test.csproj
 ```xml
 <ItemGroup>
-    <projectreference Include="..\Calculator\Calculator.csproj">
-    </projectreference>
+    <projectreference Include="..\Calculator\Calculator.csproj" />
 </ItemGroup>
 ```
 +++
@@ -57,8 +56,7 @@ Final Calculator.Test.csproj
     <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
   </ItemGroup>
   <ItemGroup>
-    <projectreference Include="..\Calculator\Calculator.csproj">
-    </projectreference>
+    <projectreference Include="..\Calculator\Calculator.csproj" />
   </ItemGroup>
 </Project>
 ```
@@ -93,21 +91,6 @@ UnitTest1.cs(2,7): error CS0246: The type or namespace name 'Xunit' could not be
 
 +++
 
-Calculator\Calculator.cs
-```csharp 
-using System;
-
-namespace Calculator
-{
-    public class Calculator
-    {
-        public int Add(String input){
-            return -1;
-        }
-    }
-}
-```
-+++
 
 Calculator.Test\CalculatorTest.cs
 ```csharp
@@ -123,7 +106,24 @@ namespace Calculator.Test
         public void Test1()
         {
             var c = new Calculator();
-            Assert.That( c.Add(""), Is.Null);
+            Assert.That( c.Add(""), Is.EqualTo(0));
+        }
+    }
+}
+```
+
++++
+
+Calculator\Calculator.cs
+```csharp 
+using System;
+
+namespace Calculator
+{
+    public class Calculator
+    {
+        public int Add(String input){
+            return -1;
         }
     }
 }
